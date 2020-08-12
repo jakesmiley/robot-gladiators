@@ -11,8 +11,14 @@ var enemyAttack = 12;
 
 // create fight function
 var fight = function() {
+    // Welcome
     window.alert("Welcome to Robot Gladiators!");
 
+    // Fight or Skip
+    var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
+
+    // player chooses fight
+    if (promptFight === "fight" || promptFight === "FIGHT") {
     // subtract playerAttack from enemyHealth
     enemyHealth = (enemyHealth - playerAttack);
     // log result to console
@@ -40,6 +46,12 @@ var fight = function() {
     else {
         window.alert(playerName + " still has " + playerHealth + " health left.");
     }
+    // player chooses skip
+}   else if (promptFight === "skip" || promptFight === "SKIP") {
+    window.alert(playerName + " has chosen to skip the fight!");
+}   else {
+    window.alert("You need to pick a valid option. Try again!");
+}
 };
 
 // execute fight function
