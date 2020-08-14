@@ -87,6 +87,17 @@ var startGame = function() {
             var pickedEnemyName = enemyNames[i];
             enemyHealth = 50;
             fight(pickedEnemyName);
+
+            // if we're not at last enemy in the array
+            if (playerHealth > 0 && i < enemyNames.length -1) {
+                //shop?
+                var storeConfirm = window.confirm("The fight is over, visit the store before the next round?");
+
+                //shop YES
+                if (storeConfirm) {
+                    shop();
+                }
+            }
         }
         else {
             window.alert("You have lost your robot in battle! Game over!");
@@ -115,7 +126,59 @@ var endGame = function() {
     } else {
         window.alert("Thank you for playing Robot Gladiators! Come back soon!");
     } 
-}
+};
+
+//shop function
+var shop = function() {
+    //shop selection
+    var shopOptionPrompt = window.prompt(
+        "Would you like to REFILL your health, UPGRADE your weapon, or LEAVE the store?"
+    );
+
+    //use 'switch' statements to carry out shop selection
+    switch (shopOptionPrompt) {
+        case "REFILL":
+        case "refill":
+            if (playerMoney >= 7) {
+                window.alert("Refilling player's health by 35 for 7 gold.");
+
+                //bought health
+                playerHealth = playerHealth + 35;
+                playerMoney = playerMoney - 7;
+            }
+            else {
+                window.alert("You don't have enough money!");
+            }
+
+            break;
+        
+        case "UPGRADE":
+        case "upgrade":
+            if (playerMoney >=7) {
+                window.alert("Upgrading player's weapon by 7 attack for 7 gold.");
+
+                //bought attack
+                playerAttack = playerAttack + 7;
+                playerMoney = playerMoney - 7;
+            }
+            else {
+                window.alert("You don't have enough money!");
+            }
+
+            break;
+
+        case "LEAVE":
+        case "leave":
+            window.alert("Leaving the store.");
+
+            //left store
+            break;
+        
+        default:
+            window.alert("You did not pick a valid option. Try again.");
+            shop();
+    }
+};
 
 // initiate game
 startGame();
