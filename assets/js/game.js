@@ -7,26 +7,41 @@
 // Welcome
 window.alert("Welcome to Robot Gladiators!");
 
-// create fight function
-var fight = function(enemy) {
-    while (playerInfo.health > 0 && enemy.health > 0) {
-    // ask user if they'd liked to fight or run
-    var promptFight = window.prompt('Would you like FIGHT or SKIP this battle? Enter "FIGHT" or "SKIP" to choose.');
-  
-    // if user picks "skip" confirm and then stop the loop
-    if (promptFight === "skip" || promptFight === "SKIP") {
-        // confirm user wants to skip
-        var confirmSkip = window.confirm("Are you sure you'd like to quit?");
-  
-        // if yes (true), leave fight
+var fightOrSkip = function() {
+    //fight or skip?
+    var promptFight = window.prompt('Would you like to FIGHT or SKIP this battle?');
+
+    //recursive function call
+    if (promptFight === "" || promptFight === null) {
+        window.alert("You need to provide a valid answer.");
+        return fightOrSkip();
+    }
+
+    promptFight = promptFight.toLowerCase();
+
+    //pick skip
+    if (promptFight === "skip") {
+        var confirmSkip = window.confirm("Are you sure you want to skip?");
+
+    //yes confirm skip
         if (confirmSkip) {
-          window.alert(playerInfo.name + ' has decided to skip this fight. Goodbye!');
-          // subtract money from playerInfo.money for skipping
-          playerInfo.money = Math.max(0, playerInfo.money - 10);
-          console.log("playerInfo.money", playerInfo.money)
-          break;
+            window.alert(playerInfo.name + " has decided to skip this fight.");
+            playerInfo.money = playerInfo.money - 10;
+
+            return true;
         }
     }
+
+    return false;
+}
+
+// create fight function
+var fight = function(enemy) {
+    // repeat and execute as long as the enemy robot is alive 
+    while(enemy.health > 0 && playerInfo.health > 0) {
+        if (fightOrSkip()) {
+            break;
+        }
   
     // remove enemy's health by subtracting the amount set in the playerInfo.attack variable
     var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
